@@ -118,11 +118,9 @@ header {
 	border: none;
 	background: #f1f1f1;
 }
-.correct {
-	color: #46a049;
-}
-.wrong {
-	color: red;
+
+#result {
+	color: #432e6b;
 }
 .red {
 	background-color: hsl(360, 91%, 36%);
@@ -151,6 +149,58 @@ button[disabled] {
 
 .quiz-form {
 	display: none;
+}
+
+.fade-out {
+	animation: fadeOut ease 2.5s;
+	-webkit-animation: fadeOut ease 2.5s;
+	-moz-animation: fadeOut ease 2.5s;
+	-o-animation: fadeOut ease 2.5s;
+	-ms-animation: fadeOut ease 2.5s;
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-moz-keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-o-keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-ms-keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
 }
 
 @media (max-width: 690px) {

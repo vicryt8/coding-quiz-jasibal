@@ -42,6 +42,7 @@ var q = 0;
 var currentTime = maxTime + 1;
 var quizComplete = false;
 var quizTimer;
+var textFade;
 function initQuizState(fromContainer) {
     console.log(fromContainer.id);
     newQuizTimer();
@@ -71,18 +72,26 @@ function displayQuestion(currentQuestionIndex) {
         document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[currentQuestionIndex].choices[i];
     }
 }
+function displayResult(result) {
+    quizResult.textContent = result;
+    console.log(result);
+    quizResult.setAttribute("class", "fade-out");
+    textFade = setTimeout(() => {
+        quizResult.textContent = "";
+    }, 2200);
+}
 function validateAnwer(event) {
+    quizResult.classList.remove("fade-out");
+    clearTimeout(textFade);
     console.log("validateAnswer " + q);
     if (q < questions.length - 1) {
         var incorrectPenalty = event.target.innerText.search(questions[q].answer) > 0 ? 0 : penalty;
         currentTime = currentTime - incorrectPenalty > 0 ? currentTime - incorrectPenalty : 0;
         timerElement.textContent = "Time Remaining: " + String(currentTime);
-        var isCorrect = incorrectPenalty === 0 ? "Correct" : "Wrong";
-        var embellishment = incorrectPenalty === 0 ? " 😀" : " 😞";
-        quizResult.textContent = isCorrect + embellishment;
-        quizResult.setAttribute("class", isCorrect.toLowerCase());
+        var isCorrect = incorrectPenalty === 0 ? "Correct 😀" : "Wrong 😣";
         q++;
         displayQuestion(q);
+        displayResult(isCorrect);
     }
     else {
         quizComplete = true;
@@ -99,6 +108,8 @@ function endQuiz(score) {
     quizComplete = false;
     quizTimer = null;
     quizScore.textContent = String(score);
+    clearTimeout(textFade);
+    textFade = null;
 }
 function displayElements(hideElement, showElement) {
     hideElement.style.display = "none";

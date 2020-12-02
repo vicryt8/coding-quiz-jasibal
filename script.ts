@@ -46,6 +46,7 @@ var q = 0;
 var currentTime = maxTime + 1;
 var quizComplete = false;
 var quizTimer: any;
+var textFade: any;
 
 function initQuizState(fromContainer?: HTMLElement): void {
 	console.log(fromContainer.id);
@@ -79,18 +80,27 @@ function displayQuestion(currentQuestionIndex: number): void {
 	}
 }
 
+function displayResult(result: string): void {
+	quizResult.textContent = result;
+	console.log(result);
+	quizResult.setAttribute("class", "fade-out");
+	textFade = setTimeout(() => {
+		quizResult.textContent = "";
+	}, 2200);
+}
+
 function validateAnwer(event): void {
+	quizResult.classList.remove("fade-out");
+	clearTimeout(textFade);
 	console.log("validateAnswer " + q);
 	if (q < questions.length - 1) {
 		var incorrectPenalty = event.target.innerText.search(questions[q].answer) > 0 ? 0 : penalty;
 		currentTime = currentTime - incorrectPenalty > 0 ? currentTime - incorrectPenalty : 0;
 		timerElement.textContent = "Time Remaining: " + String(currentTime);
-		var isCorrect = incorrectPenalty === 0 ? "Correct" : "Wrong";
-		var embellishment = incorrectPenalty === 0 ? " 😀" : " 😞";
-		quizResult.textContent = isCorrect + embellishment;
-		quizResult.setAttribute("class", isCorrect.toLowerCase());
+		var isCorrect = incorrectPenalty === 0 ? "Correct 😀" : "Wrong 😣";
 		q++;
 		displayQuestion(q);
+		displayResult(isCorrect);
 	} else {
 		quizComplete = true;
 		endQuiz(currentTime);
@@ -107,6 +117,8 @@ function endQuiz(score: number) {
 	quizComplete = false;
 	quizTimer = null;
 	quizScore.textContent = String(score);
+	clearTimeout(textFade);
+	textFade = null;
 }
 
 function displayElements(hideElement: HTMLElement, showElement: HTMLElement): void {
