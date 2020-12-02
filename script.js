@@ -105,6 +105,7 @@ function endQuiz(score) {
     displayElements(quizContainer, finishContainer);
     currentTime = maxTime + 1;
     q = 0;
+    quizResult.textContent = "";
     quizComplete = false;
     quizTimer = null;
     quizScore.textContent = String(score);
