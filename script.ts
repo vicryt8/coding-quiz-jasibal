@@ -62,6 +62,7 @@ var quizHeader = document.querySelector("#quiz-question") as HTMLElement;
 var quizNumber = document.querySelector("#quiz-number") as HTMLElement;
 var quizScore = document.querySelector("#score") as HTMLElement;
 var quizResult = document.querySelector("#result") as HTMLElement;
+var quizPenalty = document.querySelector("#penalty") as HTMLElement;
 
 var q = 0;
 var currentTime = maxTime + 1;

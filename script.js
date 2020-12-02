@@ -59,6 +59,7 @@ var quizHeader = document.querySelector("#quiz-question");
 var quizNumber = document.querySelector("#quiz-number");
 var quizScore = document.querySelector("#score");
 var quizResult = document.querySelector("#result");
+var quizPenalty = document.querySelector("#penalty");
 var q = 0;
 var currentTime = maxTime + 1;
 var quizComplete = false;
