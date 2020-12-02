@@ -55,7 +55,6 @@ function initQuizState(fromContainer?: HTMLElement): void {
 	displayElements(fromContainer, quizContainer);
 	displayQuestion(q);
 }
-
 function newQuizTimer(): void {
 	console.log("iq: " + currentTime);
 	validateTime();
@@ -70,25 +69,14 @@ function validateTime() {
 		endQuiz(0);
 	}
 }
-
 function displayQuestion(currentQuestionIndex: number): void {
 	console.log("dq");
-	quizNumber.textContent = "Question " + String(currentQuestionIndex + 1);
+	quizNumber.textContent = "Question " + String(currentQuestionIndex + 1) + "/5";
 	quizHeader.textContent = questions[currentQuestionIndex].title;
 	for (var i = 0; i < 4; i++) {
 		document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[currentQuestionIndex].choices[i];
 	}
 }
-
-function displayResult(result: string): void {
-	quizResult.textContent = result;
-	console.log(result);
-	quizResult.setAttribute("class", "fade-out");
-	textFade = setTimeout(() => {
-		quizResult.textContent = "";
-	}, 2200);
-}
-
 function validateAnwer(event): void {
 	quizResult.classList.remove("fade-out");
 	clearTimeout(textFade);
@@ -107,7 +95,14 @@ function validateAnwer(event): void {
 	}
 	validateTime();
 }
-
+function displayResult(result: string): void {
+	quizResult.textContent = result;
+	console.log(result);
+	quizResult.setAttribute("class", "fade-out");
+	textFade = setTimeout(() => {
+		quizResult.textContent = "";
+	}, 2200);
+}
 function endQuiz(score: number) {
 	console.log("eq: " + score);
 	clearInterval(quizTimer);
@@ -121,7 +116,6 @@ function endQuiz(score: number) {
 	clearTimeout(textFade);
 	textFade = null;
 }
-
 function displayElements(hideElement: HTMLElement, showElement: HTMLElement): void {
 	hideElement.style.display = "none";
 	showElement.style.display = "block";

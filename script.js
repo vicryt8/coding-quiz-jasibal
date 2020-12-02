@@ -66,19 +66,11 @@ function validateTime() {
 }
 function displayQuestion(currentQuestionIndex) {
     console.log("dq");
-    quizNumber.textContent = "Question " + String(currentQuestionIndex + 1);
+    quizNumber.textContent = "Question " + String(currentQuestionIndex + 1) + "/5";
     quizHeader.textContent = questions[currentQuestionIndex].title;
     for (var i = 0; i < 4; i++) {
         document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[currentQuestionIndex].choices[i];
     }
-}
-function displayResult(result) {
-    quizResult.textContent = result;
-    console.log(result);
-    quizResult.setAttribute("class", "fade-out");
-    textFade = setTimeout(() => {
-        quizResult.textContent = "";
-    }, 2200);
 }
 function validateAnwer(event) {
     quizResult.classList.remove("fade-out");
@@ -98,6 +90,14 @@ function validateAnwer(event) {
         endQuiz(currentTime);
     }
     validateTime();
+}
+function displayResult(result) {
+    quizResult.textContent = result;
+    console.log(result);
+    quizResult.setAttribute("class", "fade-out");
+    textFade = setTimeout(() => {
+        quizResult.textContent = "";
+    }, 2200);
 }
 function endQuiz(score) {
     console.log("eq: " + score);
