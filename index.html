@@ -2,20 +2,68 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Speed Reader</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Coding Quiz</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <div class="content">
+    <header>
+      <h1>Coding Quiz</h1>
+    </header>
+    <div class="wrapper">
+      <div class="card" id="start-container">
+        <div class="card-header">
+          <h2>Challenge</h2>
+        </div>
+        <div class="card-body">
+          Try to answer the following code-related questions withih the time limit. <br> Keep in mind
+          that incorrect answers will penalise your score time by 10 seconds!
+        </div>
+        <div class="card-footer">
+          <button id="start" class="btn">Begin Quiz</button>
+        </div>
+      </div>
 
+      <div class="card quiz-form" id="quiz-container">
+        <div class="card-header">
+          <h2 id="quiz-number"></h2>
+          <h3 id="quiz-question"></h3>
+        </div>
+        <div class="card-body">
+          <button id="option-1" class="answer btn purple"></button>
+          <button id="option-2" class="answer btn purple"></button>
+          <button id="option-3" class="answer btn purple"></button>
+          <button id="option-4" class="answer btn purple"></button>
+
+          <div class="card-footer">
+            <h2 id="time"></h2>
+            <h2 id="result"></h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="card quiz-form" id="finish-container">
+        <div class="card-header">
+          <h2>All Done!</h2>
+        </div>
+        <div class="card-body">
+          <h2>Your final score is <span id="score"></span></h2>
+          <h4>Enter initials for highscore:</h4>
+          <input type="text" id="password-length" class="answer">
+        </div>
+
+        <div class="card-footer">
+          <button id="submit" class="btn purple">Submit Highscore</button>
+          <button id="retry" class="btn">Retry Quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-<div><span id="time"></span></div>
-<div id="question-display"></div>
-<button id="option-1" class="answer"></button>
-<button id="option-2" class="answer"></button>
-<button id="option-3" class="answer"></button>
-<button id="option-4" class="answer"></button>
-<button id="start">start</button>
-<script src="script.js"></script>
 
 </html>

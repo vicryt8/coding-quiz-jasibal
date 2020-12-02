@@ -25,24 +25,36 @@ var questions = [
         answer: "console.log",
     },
 ];
-const maxTime = 10;
+const maxTime = 75;
 const penalty = 10;
+var startContainer = document.querySelector("#start-container");
+var quizContainer = document.querySelector("#quiz-container");
+var finishContainer = document.querySelector("#finish-container");
+var startButton = document.querySelector("#start");
+var retryButton = document.querySelector("#retry");
+var anwerBtns = document.querySelectorAll(".answer.btn.purple");
 var timerElement = document.querySelector("#time");
-var anwerBtns = document.querySelectorAll(".answer");
-var questionElement = document.querySelector("#question-display");
+var quizHeader = document.querySelector("#quiz-question");
+var quizNumber = document.querySelector("#quiz-number");
+var quizScore = document.querySelector("#score");
+var quizResult = document.querySelector("#result");
 var q = 0;
 var currentTime = maxTime + 1;
 var quizComplete = false;
-function initQuizState() {
+var quizTimer;
+function initQuizState(fromContainer) {
+    console.log(fromContainer.id);
+    newQuizTimer();
+    quizTimer = setInterval(newQuizTimer, 1000);
+    displayElements(fromContainer, quizContainer);
+    displayQuestion(q);
+}
+function newQuizTimer() {
     console.log("iq: " + currentTime);
     validateTime();
     currentTime--;
-    if (currentTime === maxTime) {
-        displayQuestion(q);
-    }
     if (currentTime >= 0) {
-        timerElement.textContent = String(currentTime);
-        setTimeout(() => initQuizState(), 1000);
+        timerElement.textContent = "Time Remaining: " + String(currentTime);
     }
 }
 function validateTime() {
@@ -53,26 +65,22 @@ function validateTime() {
 }
 function displayQuestion(currentQuestionIndex) {
     console.log("dq");
-    questionElement.textContent = questions[currentQuestionIndex].title;
+    quizNumber.textContent = "Question " + String(currentQuestionIndex + 1);
+    quizHeader.textContent = questions[currentQuestionIndex].title;
     for (var i = 0; i < 4; i++) {
-        document.querySelector("#" + "option-" + String(i + 1)).innerHTML = questions[currentQuestionIndex].choices[i];
-    }
-}
-function endQuiz(score) {
-    console.log("eq: " + score);
-    timerElement.textContent = String(currentTime);
-    currentTime = 0;
-    questionElement.textContent = "All Done! Your score is: " + score;
-    for (let btn of anwerBtns) {
-        btn.style.display = "none";
+        document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[currentQuestionIndex].choices[i];
     }
 }
 function validateAnwer(event) {
     console.log("validateAnswer " + q);
     if (q < questions.length - 1) {
-        var incorrectPenalty = questions[q].answer === event.target.innerText ? 0 : penalty;
+        var incorrectPenalty = event.target.innerText.search(questions[q].answer) > 0 ? 0 : penalty;
         currentTime = currentTime - incorrectPenalty > 0 ? currentTime - incorrectPenalty : 0;
-        timerElement.textContent = String(currentTime);
+        timerElement.textContent = "Time Remaining: " + String(currentTime);
+        var isCorrect = incorrectPenalty === 0 ? "Correct" : "Wrong";
+        var embellishment = incorrectPenalty === 0 ? " 😀" : " 😞";
+        quizResult.textContent = isCorrect + embellishment;
+        quizResult.setAttribute("class", isCorrect.toLowerCase());
         q++;
         displayQuestion(q);
     }
@@ -82,10 +90,25 @@ function validateAnwer(event) {
     }
     validateTime();
 }
+function endQuiz(score) {
+    console.log("eq: " + score);
+    clearInterval(quizTimer);
+    displayElements(quizContainer, finishContainer);
+    currentTime = maxTime + 1;
+    q = 0;
+    quizComplete = false;
+    quizTimer = null;
+    quizScore.textContent = String(score);
+}
+function displayElements(hideElement, showElement) {
+    hideElement.style.display = "none";
+    showElement.style.display = "block";
+}
 anwerBtns.forEach((item) => {
     item.addEventListener("click", (event) => validateAnwer(event));
 });
-document.querySelector("#start").addEventListener("click", () => initQuizState());
+startButton.addEventListener("click", () => initQuizState(startContainer));
+retryButton.addEventListener("click", () => initQuizState(finishContainer));
 /* document.querySelector("#submit-hs").addEventListener("click", (event) => validateAnwer(event)); */
 /* function submitHighscore():  */
 /* function randomNumberArr(arrayLength: number): number[]  */

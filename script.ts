@@ -25,30 +25,44 @@ var questions = [
 		answer: "console.log",
 	},
 ];
-const maxTime = 10;
+const maxTime = 75;
 const penalty = 10;
 
-var timerElement = document.querySelector("#time");
-var anwerBtns = document.querySelectorAll(".answer") as NodeListOf<HTMLElement>;
-var questionElement = document.querySelector("#question-display");
+var startContainer = document.querySelector("#start-container") as HTMLElement;
+var quizContainer = document.querySelector("#quiz-container") as HTMLElement;
+var finishContainer = document.querySelector("#finish-container") as HTMLElement;
+
+var startButton = document.querySelector("#start") as HTMLElement;
+var retryButton = document.querySelector("#retry") as HTMLElement;
+var anwerBtns = document.querySelectorAll(".answer.btn.purple") as NodeListOf<HTMLElement>;
+
+var timerElement = document.querySelector("#time") as HTMLElement;
+var quizHeader = document.querySelector("#quiz-question") as HTMLElement;
+var quizNumber = document.querySelector("#quiz-number") as HTMLElement;
+var quizScore = document.querySelector("#score") as HTMLElement;
+var quizResult = document.querySelector("#result") as HTMLElement;
 
 var q = 0;
 var currentTime = maxTime + 1;
 var quizComplete = false;
+var quizTimer: any;
 
-function initQuizState(): void {
+function initQuizState(fromContainer?: HTMLElement): void {
+	console.log(fromContainer.id);
+	newQuizTimer();
+	quizTimer = setInterval(newQuizTimer, 1000);
+	displayElements(fromContainer, quizContainer);
+	displayQuestion(q);
+}
+
+function newQuizTimer(): void {
 	console.log("iq: " + currentTime);
 	validateTime();
 	currentTime--;
-	if (currentTime === maxTime) {
-		displayQuestion(q);
-	}
 	if (currentTime >= 0) {
-		timerElement.textContent = String(currentTime);
-		setTimeout(() => initQuizState(), 1000);
+		timerElement.textContent = "Time Remaining: " + String(currentTime);
 	}
 }
-
 function validateTime() {
 	console.log("vt");
 	if (currentTime <= 0 && quizComplete === false) {
@@ -58,28 +72,23 @@ function validateTime() {
 
 function displayQuestion(currentQuestionIndex: number): void {
 	console.log("dq");
-	questionElement.textContent = questions[currentQuestionIndex].title;
+	quizNumber.textContent = "Question " + String(currentQuestionIndex + 1);
+	quizHeader.textContent = questions[currentQuestionIndex].title;
 	for (var i = 0; i < 4; i++) {
-		document.querySelector("#" + "option-" + String(i + 1)).innerHTML = questions[currentQuestionIndex].choices[i];
-	}
-}
-
-function endQuiz(score: number) {
-	console.log("eq: " + score);
-	timerElement.textContent = String(currentTime);
-	currentTime = 0;
-	questionElement.textContent = "All Done! Your score is: " + score;
-	for (let btn of anwerBtns) {
-		btn.style.display = "none";
+		document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[currentQuestionIndex].choices[i];
 	}
 }
 
 function validateAnwer(event): void {
 	console.log("validateAnswer " + q);
 	if (q < questions.length - 1) {
-		var incorrectPenalty = questions[q].answer === event.target.innerText ? 0 : penalty;
+		var incorrectPenalty = event.target.innerText.search(questions[q].answer) > 0 ? 0 : penalty;
 		currentTime = currentTime - incorrectPenalty > 0 ? currentTime - incorrectPenalty : 0;
-		timerElement.textContent = String(currentTime);
+		timerElement.textContent = "Time Remaining: " + String(currentTime);
+		var isCorrect = incorrectPenalty === 0 ? "Correct" : "Wrong";
+		var embellishment = incorrectPenalty === 0 ? " 😀" : " 😞";
+		quizResult.textContent = isCorrect + embellishment;
+		quizResult.setAttribute("class", isCorrect.toLowerCase());
 		q++;
 		displayQuestion(q);
 	} else {
@@ -89,11 +98,29 @@ function validateAnwer(event): void {
 	validateTime();
 }
 
+function endQuiz(score: number) {
+	console.log("eq: " + score);
+	clearInterval(quizTimer);
+	displayElements(quizContainer, finishContainer);
+	currentTime = maxTime + 1;
+	q = 0;
+	quizComplete = false;
+	quizTimer = null;
+	quizScore.textContent = String(score);
+}
+
+function displayElements(hideElement: HTMLElement, showElement: HTMLElement): void {
+	hideElement.style.display = "none";
+	showElement.style.display = "block";
+}
+
 anwerBtns.forEach((item) => {
 	item.addEventListener("click", (event) => validateAnwer(event));
 });
 
-document.querySelector("#start").addEventListener("click", () => initQuizState());
+startButton.addEventListener("click", () => initQuizState(startContainer));
+
+retryButton.addEventListener("click", () => initQuizState(finishContainer));
 
 /* document.querySelector("#submit-hs").addEventListener("click", (event) => validateAnwer(event)); */
 
