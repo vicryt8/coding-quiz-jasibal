@@ -24,6 +24,27 @@ var questions = [
         choices: ["JavaScript", "terminal / bash", "for loops", "console.log"],
         answer: "console.log",
     },
+    { title: "Commonly used data types DO NOT include:", choices: ["strings", "booleans", "alerts", "numbers"], answer: "alerts" },
+    {
+        title: "The condition in an if / else statement is enclosed within ____.",
+        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+        answer: "parentheses",
+    },
+    {
+        title: "Arrays in JavaScript can be used to store ____.",
+        choices: ["numbers and strings", "other arrays", "booleans", "all of the above"],
+        answer: "all of the above",
+    },
+    {
+        title: "String values must be enclosed within ____ when being assigned to variables.",
+        choices: ["commas", "curly brackets", "quotes", "parentheses"],
+        answer: "quotes",
+    },
+    {
+        title: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        choices: ["JavaScript", "terminal / bash", "for loops", "console.log"],
+        answer: "console.log",
+    },
 ];
 const maxTime = 75;
 const penalty = 10;
@@ -66,7 +87,7 @@ function validateTime() {
 }
 function displayQuestion(currentQuestionIndex) {
     console.log("dq");
-    quizNumber.textContent = "Question " + String(currentQuestionIndex + 1) + "/5";
+    quizNumber.textContent = "Question " + String(currentQuestionIndex + 1) + "/" + String(questions.length);
     quizHeader.textContent = questions[currentQuestionIndex].title;
     for (var i = 0; i < 4; i++) {
         document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[currentQuestionIndex].choices[i];
@@ -121,7 +142,3 @@ anwerBtns.forEach((item) => {
 });
 startButton.addEventListener("click", () => initQuizState(startContainer));
 retryButton.addEventListener("click", () => initQuizState(finishContainer));
-/* document.querySelector("#submit-hs").addEventListener("click", (event) => validateAnwer(event)); */
-/* function submitHighscore():  */
-/* function randomNumberArr(arrayLength: number): number[]  */
-/* function displayHighscores() */
