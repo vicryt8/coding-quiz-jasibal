@@ -186,6 +186,7 @@ function submitScore() {
         };
         localStorage.setItem("quiz-score-" + newScoreEntry.id, JSON.stringify(newScoreEntry));
         submitted = true;
+        initials.value = "";
     }
     textFade = setTimeout(() => displayFade(submitStatus, submitMessage), 10);
 }
