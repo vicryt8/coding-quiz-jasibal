@@ -87,15 +87,13 @@ var quizTimer;
 var textFade;
 var questionOrder;
 function initQuizState(fromContainer) {
-    console.log(fromContainer.id);
-    questionOrder = genNumberArray(0, questions.length - 1, false);
     newQuizTimer();
+    questionOrder = genNumberArray(0, questions.length - 1, false);
     quizTimer = setInterval(newQuizTimer, 1000);
     displayElements(fromContainer, quizContainer);
     displayQuestion();
 }
 function newQuizTimer() {
-    console.log("iq: " + currentTime);
     validateTime();
     currentTime--;
     if (currentTime >= 0) {
@@ -103,13 +101,11 @@ function newQuizTimer() {
     }
 }
 function validateTime() {
-    console.log("vt");
     if (currentTime <= 0 && quizComplete === false) {
         endQuiz(0);
     }
 }
 function displayQuestion() {
-    console.log("dq");
     quizNumber.textContent = "Question " + String(q + 1) + "/" + String(questions.length);
     quizHeader.textContent = questions[questionOrder[q]].title;
     var answerOrder = genNumberArray(0, questions[questionOrder[q]].choices.length - 1, questions[questionOrder[q]].respectOrder);
@@ -118,9 +114,8 @@ function displayQuestion() {
     }
 }
 function validateAnwer(event) {
-    quizResult.classList.remove("fade-out");
     clearTimeout(textFade);
-    console.log("validateAnswer " + q);
+    quizResult.classList.remove("fade-out");
     if (q < questions.length - 1) {
         var incorrectPenalty = event.target.innerText.search(questions[questionOrder[q]].answer) > 0 ? 0 : penalty;
         currentTime = currentTime - incorrectPenalty > 0 ? currentTime - incorrectPenalty : 0;
@@ -138,23 +133,21 @@ function validateAnwer(event) {
 }
 function displayResult(result) {
     quizResult.textContent = result;
-    console.log(result);
     quizResult.setAttribute("class", "fade-out");
     textFade = setTimeout(() => {
         quizResult.textContent = "";
     }, 2200);
 }
 function endQuiz(score) {
-    console.log("eq: " + score);
     clearInterval(quizTimer);
+    clearTimeout(textFade);
     displayElements(quizContainer, finishContainer);
+    quizResult.textContent = "";
+    quizScore.textContent = String(score);
     currentTime = maxTime + 1;
     q = 0;
-    quizResult.textContent = "";
     quizComplete = false;
     quizTimer = null;
-    quizScore.textContent = String(score);
-    clearTimeout(textFade);
     textFade = null;
 }
 function displayElements(hideElement, showElement) {
@@ -170,8 +163,6 @@ function genNumberArray(start, end, respectOrder) {
         const j = Math.floor(Math.random() * (i + 1));
         [randomisedArray[i], randomisedArray[j]] = [randomisedArray[j], randomisedArray[i]];
     }
-    console.log("random: " + randomisedArray);
-    console.log("seq: " + sequentialArray);
     return respectOrder ? sequentialArray : randomisedArray;
 }
 anwerBtns.forEach((item) => {
