@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Coding Quiz</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
@@ -51,19 +51,20 @@
         <div class="card-body">
           <h2>Your final score is <span id="score"></span></h2>
           <h4>Enter initials for highscore:</h4>
-          <input type="text" id="password-length" class="answer">
+          <input type="text" id="initials" class="answer" placeholder="3 Character maximum">
         </div>
 
         <div class="card-footer">
           <button id="submit" class="btn purple">Submit Highscore</button>
           <button id="retry" class="btn">Retry Quiz</button>
+          <h2 id="submit-status"></h2>
         </div>
       </div>
     </div>
 
   </div>
 
-  <script src="script.js"></script>
+  <script src="dist/index.js"></script>
 </body>
 
 </html>

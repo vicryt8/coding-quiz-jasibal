@@ -76,13 +76,15 @@ var finishContainer = document.querySelector("#finish-container") as HTMLElement
 var startButton = document.querySelector("#start") as HTMLElement;
 var retryButton = document.querySelector("#retry") as HTMLElement;
 var anwerBtns = document.querySelectorAll(".answer.btn.purple") as NodeListOf<HTMLElement>;
+var submitButton = document.querySelector("#submit") as HTMLElement;
 
 var timerElement = document.querySelector("#time") as HTMLElement;
 var quizHeader = document.querySelector("#quiz-question") as HTMLElement;
 var quizNumber = document.querySelector("#quiz-number") as HTMLElement;
 var quizScore = document.querySelector("#score") as HTMLElement;
 var quizResult = document.querySelector("#result") as HTMLElement;
-var quizPenalty = document.querySelector("#penalty") as HTMLElement;
+var initials = document.querySelector("#initials") as HTMLInputElement;
+var submitStatus = document.querySelector("#submit-status") as HTMLElement;
 
 var q = 0;
 var currentTime = maxTime + 1;
@@ -90,13 +92,17 @@ var quizComplete = false;
 var quizTimer: any;
 var textFade: any;
 var questionOrder: number[];
+var submitted = false;
 
-function initQuizState(fromContainer?: HTMLElement): void {
-	newQuizTimer();
+var charBounds = [[0], [97, 122], [65, 90], [48, 57]];
+
+function initQuizState(fromContainer: HTMLElement): void {
 	questionOrder = genNumberArray(0, questions.length - 1, false);
+	newQuizTimer();
 	quizTimer = setInterval(newQuizTimer, 1000);
 	displayElements(fromContainer, quizContainer);
 	displayQuestion();
+	submitted = false;
 }
 function newQuizTimer(): void {
 	validateTime();
@@ -115,32 +121,32 @@ function displayQuestion(): void {
 	quizHeader.textContent = questions[questionOrder[q]].title;
 	var answerOrder = genNumberArray(0, questions[questionOrder[q]].choices.length - 1, questions[questionOrder[q]].respectOrder);
 	for (var i = 0; i < 4; i++) {
-		document.querySelector("#" + "option-" + String(i + 1)).innerHTML = String(i + 1) + ". " + questions[questionOrder[q]].choices[answerOrder[i]];
+		document.querySelector("#" + "option-" + String(i + 1))!.innerHTML = String(i + 1) + ". " + questions[questionOrder[q]].choices[answerOrder[i]];
 	}
 }
-function validateAnwer(event): void {
-	clearTimeout(textFade);
+function validateAnwer(event: MouseEvent): void {
 	quizResult.classList.remove("fade-out");
+	clearTimeout(textFade);
 	if (q < questions.length - 1) {
-		var incorrectPenalty = event.target.innerText.search(questions[questionOrder[q]].answer) > 0 ? 0 : penalty;
+		var incorrectPenalty = (<HTMLElement>event.target).innerText.search(questions[questionOrder[q]].answer) > 0 ? 0 : penalty;
 		currentTime = currentTime - incorrectPenalty > 0 ? currentTime - incorrectPenalty : 0;
 		timerElement.textContent = "Time Remaining: " + String(currentTime);
 		var isCorrect = incorrectPenalty === 0 ? "Correct 😀" : "Wrong 😣";
 		q++;
 		displayQuestion();
-		displayResult(isCorrect);
+		displayFade(quizResult, isCorrect);
 	} else {
 		quizComplete = true;
 		endQuiz(currentTime);
 	}
 	validateTime();
 }
-function displayResult(result: string): void {
-	quizResult.textContent = result;
-	quizResult.setAttribute("class", "fade-out");
+function displayFade(fadeContainer: HTMLElement, fadeText: string): void {
+	fadeContainer.textContent = fadeText;
+	fadeContainer.setAttribute("class", "fade-out");
 	textFade = setTimeout(() => {
-		quizResult.textContent = "";
-	}, 2200);
+		fadeContainer.textContent = "";
+	}, 2800);
 }
 function endQuiz(score: number): void {
 	clearInterval(quizTimer);
@@ -152,7 +158,6 @@ function endQuiz(score: number): void {
 	q = 0;
 	quizComplete = false;
 	quizTimer = null;
-	textFade = null;
 }
 function displayElements(hideElement: HTMLElement, showElement: HTMLElement): void {
 	hideElement.style.display = "none";
@@ -169,11 +174,42 @@ function genNumberArray(start: number, end: number, respectOrder: boolean): numb
 	}
 	return respectOrder ? sequentialArray : randomisedArray;
 }
+function submitScore(): void {
+	var submitMessage = submitted ? "Already submitted a highscore! Retry the Quiz to submit another highscore" : "Submitted!";
+	clearTimeout(textFade);
+	submitStatus.classList.remove("fade-out");
+	var userInitials = initials.value;
+	if (userInitials.length > 3 || userInitials.length === 0) {
+		alert("Please enter valid initials");
+	} else if (!submitted) {
+		var newScoreEntry = {
+			score: Number(quizScore.textContent),
+			initial: userInitials,
+			id: generateRandomID(5),
+		};
+		localStorage.setItem("quiz-score-" + newScoreEntry.id, JSON.stringify(newScoreEntry));
+		submitted = true;
+	}
+	textFade = setTimeout(() => displayFade(submitStatus, submitMessage), 10);
+}
+function generateRandomID(length: number): string {
+	var generatedID = "";
+	for (var n = 0; n < length; n++) {
+		var randCharBound = generateRandomInt(1, charBounds.length - 1);
+		generatedID = generatedID + String.fromCharCode(generateRandomInt(charBounds[randCharBound][0], charBounds[randCharBound][1]));
+	}
+	return generatedID;
+}
+function generateRandomInt(min: number, max: number): number {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 anwerBtns.forEach((item) => {
-	item.addEventListener("click", (event) => validateAnwer(event));
+	item.addEventListener("click", (event: MouseEvent) => validateAnwer(event));
 });
 
 startButton.addEventListener("click", () => initQuizState(startContainer));
 
 retryButton.addEventListener("click", () => initQuizState(finishContainer));
+
+submitButton.addEventListener("click", () => submitScore());

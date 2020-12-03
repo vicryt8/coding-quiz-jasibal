@@ -93,12 +93,17 @@ header {
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
 	color: hsl(0, 0%, 100%);
 	display: inline-block;
-	font-size: 22px;
-	line-height: 22px;
+	font-size: 20px;
+	line-height: 20px;
 	margin: 16px 16px 16px 20px;
 	padding: 14px 34px;
 	text-align: center;
 	cursor: pointer;
+}
+
+.delete {
+	font-size: 15px;
+	padding: 10px 28px;
 }
 
 .btn:active {
@@ -154,11 +159,52 @@ button[disabled] {
 }
 
 .fade-out {
-	animation: fadeOut ease 2.5s;
-	-webkit-animation: fadeOut ease 2.5s;
-	-moz-animation: fadeOut ease 2.5s;
-	-o-animation: fadeOut ease 2.5s;
-	-ms-animation: fadeOut ease 2.5s;
+	animation: fadeOut ease 3s;
+	-webkit-animation: fadeOut ease 3s;
+	-moz-animation: fadeOut ease 3s;
+	-o-animation: fadeOut ease 3s;
+	-ms-animation: fadeOut ease 3s;
+}
+
+#highscores {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#highscores td,
+#highscores th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#highscores tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#highscores tr:hover {
+	background-color: #ddd;
+}
+
+#highscores th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: center;
+	background-color: #432e6b;
+	color: white;
+}
+.deleteButton {
+	background: transparent;
+	border: 1px solid #f00;
+	border-radius: 2em;
+	color: #f00;
+	display: inline-block;
+	font-size: 12px;
+	height: 20px;
+	line-height: 2px;
+	margin: 0 0 8px;
+	padding: 8px;
+	text-align: center;
+	width: 20px;
 }
 @keyframes fadeOut {
 	0% {
