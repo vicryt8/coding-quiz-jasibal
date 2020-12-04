@@ -93,6 +93,7 @@ var submitted = false;
 var charBounds = [[0], [97, 122], [65, 90], [48, 57]];
 function initQuizState(fromContainer) {
     submitStatus.textContent = "";
+    initials.value = "";
     questionOrder = genNumberArray(0, questions.length - 1, false);
     newQuizTimer();
     quizTimer = setInterval(newQuizTimer, 1000);
@@ -176,6 +177,7 @@ function submitScore() {
     clearTimeout(textFade);
     submitStatus.classList.remove("fade-out");
     var userInitials = initials.value;
+    initials.value = "";
     if (!(userInitials.length <= 3) && !(userInitials.length === 0) && submitted === false) {
         alert("Please enter valid initials");
         submitMessage = "Try again!";

@@ -16,9 +16,9 @@ function loadTable() {
     for (var i = 0; i < scoreArray.length; i++) {
         var newTablerow = document.createElement("tr");
         newTablerow.setAttribute("id", scoreArray[i].id);
-        var rankData = "<td>" + String(i + 1) + "</td>";
+        var rankData = "<td class=rank>" + String(i + 1) + "</td>";
         var deleteData = "<td data-deleteid=" + scoreArray[i].id + '><button class="btn red delete">Delete</button></td>';
-        var initialsData = "<td>" + scoreArray[i].initial.toUpperCase() + "  " + "</td>";
+        var initialsData = "<td>" + scoreArray[i].initial.toUpperCase() + "</td>";
         var scoreData = "<td>" + String(scoreArray[i].score) + "</td>";
         newTablerow.innerHTML = rankData + initialsData + scoreData + deleteData;
         highscoreTable.append(newTablerow);
@@ -32,5 +32,9 @@ function deleteRow(event) {
     var deleteID = String(event.target.parentNode.dataset.deleteid);
     localStorage.removeItem("quiz-score-" + deleteID);
     document.querySelector(`#${CSS.escape(deleteID)}`).remove();
+    var remainingRow = document.querySelectorAll(".rank");
+    remainingRow.forEach((item, index) => {
+        item.textContent = String(index + 1);
+    });
 }
 init();
