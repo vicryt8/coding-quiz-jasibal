@@ -206,6 +206,25 @@ function generateRandomID(length: number): string {
 function generateRandomInt(min: number, max: number): number {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
+function keyboardClick(event: KeyboardEvent): void {
+	if (quizContainer.style.display !== "none") {
+		console.log(event.key);
+		switch (event.key) {
+			case "1":
+				anwerBtns[0].click();
+				break;
+			case "2":
+				anwerBtns[1].click();
+				break;
+			case "3":
+				anwerBtns[2].click();
+				break;
+			case "4":
+				anwerBtns[3].click();
+				break;
+		}
+	}
+}
 
 anwerBtns.forEach((item) => {
 	item.addEventListener("click", (event: MouseEvent) => validateAnwer(event));
@@ -216,3 +235,5 @@ startButton.addEventListener("click", () => initQuizState(startContainer));
 retryButton.addEventListener("click", () => initQuizState(finishContainer));
 
 submitButton.addEventListener("click", () => submitScore());
+
+document.addEventListener("keydown", (event: KeyboardEvent) => keyboardClick(event));
