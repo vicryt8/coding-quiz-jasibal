@@ -97,6 +97,7 @@ var submitted = false;
 var charBounds = [[0], [97, 122], [65, 90], [48, 57]];
 
 function initQuizState(fromContainer: HTMLElement): void {
+	submitStatus.textContent = "";
 	questionOrder = genNumberArray(0, questions.length - 1, false);
 	newQuizTimer();
 	quizTimer = setInterval(newQuizTimer, 1000);
@@ -175,12 +176,13 @@ function genNumberArray(start: number, end: number, respectOrder: boolean): numb
 	return respectOrder ? sequentialArray : randomisedArray;
 }
 function submitScore(): void {
-	var submitMessage = submitted ? "Already submitted a highscore! Retry the Quiz to submit another highscore" : "Submitted!";
+	var submitMessage = submitted ? "Already submitted a highscore! Retry the quiz to submit another highscore" : "Submitted!";
 	clearTimeout(textFade);
 	submitStatus.classList.remove("fade-out");
 	var userInitials = initials.value;
-	if (userInitials.length > 3 || userInitials.length === 0) {
+	if (!(userInitials.length <= 3) && !(userInitials.length === 0) && submitted === false) {
 		alert("Please enter valid initials");
+		submitMessage = "Try again!";
 	} else if (!submitted) {
 		var newScoreEntry = {
 			score: Number(quizScore.textContent),
