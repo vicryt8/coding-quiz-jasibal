@@ -275,7 +275,11 @@ button[disabled] {
 	}
 	.sm {
 		display: block;
-		margin: 0px 0px 0px 0px;
+		margin: 0px 0px 0px 7px;
+		padding: 10px 10px 10px 10px;
+		border-radius: 50px;
+		line-height: 6px;
+		align-content: center;
 	}
 	.lg {
 		display: none;

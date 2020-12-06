@@ -23,7 +23,7 @@ function loadTable(): void {
 		var newTablerow = document.createElement("tr");
 		newTablerow.setAttribute("id", scoreArray[i].id);
 		var rankData = "<td class=rank>" + String(i + 1) + "</td>";
-		var deleteData = "<td data-deleteid=" + scoreArray[i].id + '><button class="btn red delete lg">Delete</button><button class="btn red delete sm">X</button></td>';
+		var deleteData = "<td data-deleteid=" + scoreArray[i].id + '><button class="btn red delete lg">Delete</button><button class="btn red delete sm">x</button></td>';
 		var initialsData = "<td>" + scoreArray[i].initial.toUpperCase() + "</td>";
 		var scoreData = "<td>" + String(scoreArray[i].score) + "</td>";
 		newTablerow.innerHTML = rankData + initialsData + scoreData + deleteData;
