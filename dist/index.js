@@ -1,4 +1,20 @@
 "use strict";
+const maxTime = 75;
+const penalty = 10;
+var startContainer = document.querySelector("#start-container");
+var quizContainer = document.querySelector("#quiz-container");
+var finishContainer = document.querySelector("#finish-container");
+var startButton = document.querySelector("#start");
+var retryButton = document.querySelector("#retry");
+var anwerBtns = document.querySelectorAll(".answer.btn.purple");
+var submitButton = document.querySelector("#submit");
+var timerElement = document.querySelector("#time");
+var quizHeader = document.querySelector("#quiz-question");
+var quizNumber = document.querySelector("#quiz-number");
+var quizScore = document.querySelector("#score");
+var quizResult = document.querySelector("#result");
+var initials = document.querySelector("#initials");
+var submitStatus = document.querySelector("#submit-status");
 var questions = [
     {
         title: "Commonly used data types DO NOT include:",
@@ -67,22 +83,6 @@ var questions = [
         respectOrder: false,
     },
 ];
-const maxTime = 75;
-const penalty = 10;
-var startContainer = document.querySelector("#start-container");
-var quizContainer = document.querySelector("#quiz-container");
-var finishContainer = document.querySelector("#finish-container");
-var startButton = document.querySelector("#start");
-var retryButton = document.querySelector("#retry");
-var anwerBtns = document.querySelectorAll(".answer.btn.purple");
-var submitButton = document.querySelector("#submit");
-var timerElement = document.querySelector("#time");
-var quizHeader = document.querySelector("#quiz-question");
-var quizNumber = document.querySelector("#quiz-number");
-var quizScore = document.querySelector("#score");
-var quizResult = document.querySelector("#result");
-var initials = document.querySelector("#initials");
-var submitStatus = document.querySelector("#submit-status");
 var q = 0;
 var currentTime = maxTime + 1;
 var quizComplete = false;

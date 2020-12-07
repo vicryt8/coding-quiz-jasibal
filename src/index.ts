@@ -1,3 +1,23 @@
+const maxTime = 75;
+const penalty = 10;
+
+var startContainer = document.querySelector("#start-container") as HTMLElement;
+var quizContainer = document.querySelector("#quiz-container") as HTMLElement;
+var finishContainer = document.querySelector("#finish-container") as HTMLElement;
+
+var startButton = document.querySelector("#start") as HTMLElement;
+var retryButton = document.querySelector("#retry") as HTMLElement;
+var anwerBtns = document.querySelectorAll(".answer.btn.purple") as NodeListOf<HTMLElement>;
+var submitButton = document.querySelector("#submit") as HTMLElement;
+
+var timerElement = document.querySelector("#time") as HTMLElement;
+var quizHeader = document.querySelector("#quiz-question") as HTMLElement;
+var quizNumber = document.querySelector("#quiz-number") as HTMLElement;
+var quizScore = document.querySelector("#score") as HTMLElement;
+var quizResult = document.querySelector("#result") as HTMLElement;
+var initials = document.querySelector("#initials") as HTMLInputElement;
+var submitStatus = document.querySelector("#submit-status") as HTMLElement;
+
 var questions = [
 	{
 		title: "Commonly used data types DO NOT include:",
@@ -66,25 +86,6 @@ var questions = [
 		respectOrder: false,
 	},
 ];
-const maxTime = 75;
-const penalty = 10;
-
-var startContainer = document.querySelector("#start-container") as HTMLElement;
-var quizContainer = document.querySelector("#quiz-container") as HTMLElement;
-var finishContainer = document.querySelector("#finish-container") as HTMLElement;
-
-var startButton = document.querySelector("#start") as HTMLElement;
-var retryButton = document.querySelector("#retry") as HTMLElement;
-var anwerBtns = document.querySelectorAll(".answer.btn.purple") as NodeListOf<HTMLElement>;
-var submitButton = document.querySelector("#submit") as HTMLElement;
-
-var timerElement = document.querySelector("#time") as HTMLElement;
-var quizHeader = document.querySelector("#quiz-question") as HTMLElement;
-var quizNumber = document.querySelector("#quiz-number") as HTMLElement;
-var quizScore = document.querySelector("#score") as HTMLElement;
-var quizResult = document.querySelector("#result") as HTMLElement;
-var initials = document.querySelector("#initials") as HTMLInputElement;
-var submitStatus = document.querySelector("#submit-status") as HTMLElement;
 
 var q = 0;
 var currentTime = maxTime + 1;
