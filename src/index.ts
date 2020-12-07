@@ -182,7 +182,8 @@ function submitScore(): void {
 	submitStatus.classList.remove("fade-out");
 	var userInitials = initials.value;
 	initials.value = "";
-	if (!(userInitials.length <= 3) && !(userInitials.length === 0) && submitted === false) {
+	console.log(userInitials.length);
+	if ((userInitials.length > 3 || userInitials.length === 0) && submitted === false) {
 		alert("Please enter valid initials");
 		submitMessage = "Try again!";
 	} else if (!submitted) {
